@@ -1,5 +1,5 @@
 jqmcvi
-=======
+======
 
 Small module with Cluster Validity Indices (CVI)
 ------------------------------------------------
@@ -10,19 +10,20 @@ Dunn and Davius Bouldin indices are implemented. It follows the equations presen
 >
 > basec.pyx : Python + NumPy optimized with Cython
 >
-> basec.pyx tested in Windows 8.1 x64, Python 3.4 and compiled with VS2010 (python setup.py build_ext -i)
+> basec.pyx tested on M1 Macbook Pro, Python 3.9 and compiled with `python setup.py build_ext -i`
 
 Functions:
 ----------
 
 **dunn(k_list)**:
+
 > Slow implementation of Dunn index that depends on numpy
 >
 > -- basec.pyx Cython implementation is much faster but slower than dunn_fast()
 
 ```python
 	""" Dunn index [CVI]
-    
+  
     Parameters
     ----------
     k_list : list of np.arrays
@@ -32,13 +33,14 @@ Functions:
 ```
 
 **dunn_fast(points, labels)**:
+
 > Fast implementation of Dunn index that depends on numpy and sklearn.pairwise
 >
 > -- No Cython implementation
 
 ```python
 	""" Dunn index - FAST (using sklearn pairwise euclidean_distance function)
-    
+  
     Parameters
     ----------
     points : np.array
@@ -49,13 +51,14 @@ Functions:
 ```
 
 **davisbouldin(k_list, k_centers)**:
+
 > Implementation of Davis Boulding index that depends on numpy
-> 
+>
 > -- basec.pyx Cython implementation is much faster
 
 ```python
 	""" Davis Bouldin Index
-	
+
 	Parameters
     ----------
     k_list : list of np.arrays
@@ -66,7 +69,15 @@ Functions:
     """
 ```
 
-Installation 
+## Developing
 
-> python setup.py install
->
+- Install dependencies
+  - `pip install -r requirements.txt`
+- Recompile `basec.c` based on updated dependencies, updated Python version, or changes to `basec.pyx`
+  - `python setup.py build_ext -i`
+- (Re)Install `jqmcvi` after any changes
+  - `pip install -e .`
+
+## Testing
+
+If running from the console, make sure present working directory is `tests/` before running `python cvi-dev.py`.
