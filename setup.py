@@ -11,18 +11,15 @@ import numpy
 
 setup(
     name="jqmcvi",
-
     version="1.0",
-
     author="Joaquim L. Viegas",
-    author_email = "jqmviegas@gmail.com",
-
+    author_email="jqmviegas@gmail.com",
     license="MIT",
-
-    cmdclass = {'build_ext': build_ext},
-    ext_modules = [
-        Extension("jqmcvi.basec", ["jqmcvi/basec.pyx"],
-                  include_dirs=[numpy.get_include()]),
+    cmdclass={"build_ext": build_ext},
+    ext_modules=[
+        Extension(
+            "jqmcvi.basec", ["jqmcvi/basec.pyx"], include_dirs=[numpy.get_include()]
+        ),
     ],
-    packages=["jqmcvi"]
+    packages=["jqmcvi"],
 )
