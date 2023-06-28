@@ -1,2 +1,10 @@
-build/lib.win-amd64-3.5/jqmcvi/__init__.py
-build/lib.win-amd64-3.5/jqmcvi/base.py
+# Build files
+build/
+dist/
+jqmcvi.*
+basec.cpython*
+
+# IDE specific
+.vscode/
+
+__pycache__/
