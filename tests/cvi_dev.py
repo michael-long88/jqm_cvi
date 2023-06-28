@@ -14,55 +14,54 @@ from sklearn.metrics import silhouette_score as Sil
 
 if __name__ == "__main__":
     ccs = pickle.load(open("ccs.pkl", "rb"))
-    ps = pickle.load(open("ps.pkl", "rb"))
-    lbls = pickle.load(open("lbls.pkl", "rb"))
+    points = pickle.load(open("ps.pkl", "rb"))
+    labels = pickle.load(open("lbls.pkl", "rb"))
 
-    cps = []
-    for i in range(0, len(ccs)):
-        cps.append([])
+    cluster_points = [[] for _ in range(len(ccs))]
 
-    i = 0
-    for lbl in lbls:
-        cps[lbl].append(ps[i])
-        i += 1
-
-    cps[0] = np.array(cps[0])
-    cps[1] = np.array(cps[1])
+    for label_index, label in enumerate(labels):
+        cluster_points[label].append(points[label_index])
+    cluster_points[0] = np.array(cluster_points[0])
+    cluster_points[1] = np.array(cluster_points[1])
 
     print(
         timeit(
-            "Sil(ps, lbls, metric='euclidean')",
-            setup="from __main__ import Sil, ps, lbls",
-            number=1,
-        )
-    )
-    print(
-        timeit("jqmcvi.dunn(cps)", setup="from __main__ import jqmcvi, cps", number=1)
-    )
-    print(
-        timeit(
-            "jqmcvin.dunn_fast(ps, lbls)",
-            setup="from __main__ import jqmcvin, ps, lbls",
+            "Sil(points, labels, metric='euclidean')",
+            setup="from __main__ import Sil, points, labels",
             number=1,
         )
     )
     print(
         timeit(
-            "jqmcvi.davisbouldin(cps, ccs)",
-            setup="from __main__ import jqmcvi, cps, ccs",
+            "jqmcvi.dunn(cluster_points)",
+            setup="from __main__ import jqmcvi, cluster_points",
             number=1,
         )
     )
     print(
         timeit(
-            "jqmcvin.davisbouldin(cps, ccs)",
-            setup="from __main__ import jqmcvin, cps, ccs",
+            "jqmcvin.dunn_fast(points, labels)",
+            setup="from __main__ import jqmcvin, points, labels",
+            number=1,
+        )
+    )
+    print(
+        timeit(
+            "jqmcvi.davisbouldin(cluster_points, ccs)",
+            setup="from __main__ import jqmcvi, cluster_points, ccs",
+            number=1,
+        )
+    )
+    print(
+        timeit(
+            "jqmcvin.davisbouldin(cluster_points, ccs)",
+            setup="from __main__ import jqmcvin, cluster_points, ccs",
             number=1,
         )
     )
 
-    print(Sil(ps, lbls, metric="euclidean"))
-    print(jqmcvi.dunn(cps))
-    print(jqmcvin.dunn_fast(ps, lbls))
-    print(jqmcvi.davisbouldin(cps, ccs))
-    print(jqmcvin.davisbouldin(cps, ccs))
+    print(Sil(points, labels, metric="euclidean"))
+    print(jqmcvi.dunn(cluster_points))
+    print(jqmcvin.dunn_fast(points, labels))
+    print(jqmcvi.davisbouldin(cluster_points, ccs))
+    print(jqmcvin.davisbouldin(cluster_points, ccs))
